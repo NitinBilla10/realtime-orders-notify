@@ -3,7 +3,8 @@ services:
     name: realtime-orders-notify
     env: node
     plan: free
-    buildCommand: npm ci --include=dev && npm run build
+    installCommand: npm ci --include=dev
+    buildCommand: npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
