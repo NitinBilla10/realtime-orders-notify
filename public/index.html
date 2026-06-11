@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Real-time orders dashboard with live database change notifications">
+  <title>Real-Time Orders Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header" id="app-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div>
+            <h1>Real-Time Orders</h1>
+            <p class="subtitle">Live Database Notifications</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="connection-status" id="connection-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span class="status-text" id="status-text">Connecting...</span>
+          </div>
+          <div class="client-count" id="client-count">0 clients</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Stats Bar -->
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-card" id="stat-total">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card" id="stat-pending">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card" id="stat-shipped">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Shipped</div>
+        </div>
+        <div class="stat-card" id="stat-delivered">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Delivered</div>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <!-- Orders Table Section -->
+        <section class="panel orders-panel" id="orders-panel">
+          <div class="panel-header">
+            <h2>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="18" rx="2"/>
+                <path d="M8 7h8M8 11h8M8 15h5"/>
+              </svg>
+              Orders Dashboard
+            </h2>
+            <button class="btn btn-primary" id="btn-refresh" onclick="fetchOrders()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/>
+              </svg>
+              Refresh
+            </button>
+          </div>
+          <div class="table-container">
+            <table class="orders-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Customer Name</th>
+                  <th>Product Name</th>
+                  <th>Status</th>
+                  <th>Updated At</th>
+                </tr>
+              </thead>
+              <tbody id="orders-tbody">
+                <tr class="empty-row">
+                  <td colspan="5">
+                    <div class="empty-state">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                        <rect x="2" y="3" width="20" height="18" rx="2"/>
+                        <path d="M8 7h8M8 11h8M8 15h5"/>
+                      </svg>
+                      <p>No orders yet. Create one via the API.</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Live Updates Panel -->
+        <section class="panel events-panel" id="events-panel">
+          <div class="panel-header">
+            <h2>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              Live Updates
+            </h2>
+            <button class="btn btn-ghost" id="btn-clear-logs" onclick="clearLogs()">
+              Clear
+            </button>
+          </div>
+          <div class="events-list" id="events-list">
+            <div class="event-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <p>Waiting for real-time events...</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Real-Time Orders Notification System &bull; PostgreSQL LISTEN/NOTIFY &bull; Socket.IO</p>
+    </footer>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
